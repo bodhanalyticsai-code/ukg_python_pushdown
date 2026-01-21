@@ -199,7 +199,7 @@ else:
     #  Step 4: Populate with Filter
     # -----------------------------
     if company_col_json_key:
-        print(f"🔍 Filtering for 'GXLLC' using column: {company_col_json_key}")
+        print(f"🔍 Filtering for 'XYZ' using column: {company_col_json_key}")
         
         # Populate flat table with WHERE clause
         session.sql(f"""
@@ -207,11 +207,11 @@ else:
             SELECT {", ".join(select_clauses)}
             FROM {full_table_name} t,
                  LATERAL FLATTEN(input => t.RAW_DATA) arr
-            WHERE arr.value:{json.dumps(company_col_json_key)}::VARCHAR = 'GXLLC'
+            WHERE arr.value:{json.dumps(company_col_json_key)}::VARCHAR = 'XYZ'
         """).collect()
         
         count = session.sql(f"SELECT COUNT(*) as cnt FROM {flat_table_name}").collect()[0]["CNT"]
-        print(f"✅ Populated flat table with {count} GXLLC-only records.")
+        print(f"✅ Populated flat table with {count} XYZ-only records.")
     else:
         print("⚠️ Company code column not found, loading all records.")
         
